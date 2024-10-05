@@ -1,0 +1,17 @@
+{
+  "name": "knowledge-nexus",
+  "version": "1.0.0",
+  "description": "**Knowledge Nexus** is an innovative platform designed to connect learners and educators through a centralized hub of resources, courses, and collaborative tools. This project aims to empower individuals by providing access to high-quality educational content, fostering a community of knowledge sharing, and enhancing the learning experience through interactive features.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.21.0",
+    "jsonwebtoken": "^9.0.2",
+    "mongoose": "^8.7.0"
+  }
+}
