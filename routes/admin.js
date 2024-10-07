@@ -1,6 +1,7 @@
 const { Router } = require("express");
 const { adminModel } = require("../db");
 const jwt = require("jsonwebtoken");
+const bcrypt = require("bcrypt");
 const { adminSchema } = require("../validation/validationSchemas");
 
 const adminRouter = Router();
