@@ -1,8 +1,9 @@
 const { Router } = require("express");
-const { adminModel } = require("../db");
+const { adminModel, courseModel } = require("../db");
 const jwt = require("jsonwebtoken");
 const bcrypt = require("bcrypt");
 const { adminSchema } = require("../validation/validationSchemas");
+const { adminMiddleware } = require("../middleware/admin");
 
 const adminRouter = Router();
 
@@ -75,22 +76,64 @@ adminRouter.post("/signin", async function(req, res) {
     }
 })
 
-adminRouter.post("/course", function(req, res) {
+adminRouter.post("/course", adminMiddleware , async function(req, res) {
+    const adminId = req.userId;
+
+    const { title, description, imageUrl, price } = req.body;
+
+    const course = await courseModel.create({
+        title,
+        description,
+        imageUrl,
+        price,
+        creatorId: adminId
+    })
+
     res.json({
-        message: "create a new course point"
+        message: "Course created",
+        courseId: course._id
     })
 })
 
-adminRouter.put("/course", function(req, res) {
+adminRouter.put("/course", adminMiddleware, async function(req, res) {
+    const adminId = req.userId;
+
+    const { title, description, imageUrl, price, courseId }= req.body;
+
+    const course = await courseModel.updateOne({
+        _id: courseId,
+        creatorId: adminId
+    }, {
+        title,
+        description,
+        imageUrl,
+        price
+    })
+
+    if (result.nModified === 0) {
+        return res.status(404).json({
+            message: "Course not found or no changes made"
+        });
+    }
+
     res.json({
-        message: "update a course point"
+        message: "Course updated",
+        courseId: course._id
     })
 })
 
-adminRouter.get("/course/all", function(req, res) {
+adminRouter.get("/course/all", adminMiddleware, async function(req, res) {
+    const adminId = req.userId;
+
+    const courses = await courseModel.find({
+        creatorId: adminId
+    });
+
     res.json({
-        message: "view all courses point"
+        message: "Courses",
+        courses
     })
+
 })
 
 module.exports = {
