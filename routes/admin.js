@@ -110,7 +110,7 @@ adminRouter.put("/course", adminMiddleware, async function(req, res) {
         price
     })
 
-    if (result.nModified === 0) {
+    if (course.nModified === 0) {
         return res.status(404).json({
             message: "Course not found or no changes made"
         });
